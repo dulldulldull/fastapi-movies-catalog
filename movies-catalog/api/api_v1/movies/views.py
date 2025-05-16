@@ -39,13 +39,12 @@ def create_movie(
 ):
     movie_id = random.randint(0, 1000)
     return Movie(
-        movie_id=movie_id,
         **movie_create.model_dump(),
     )
 
 
 @router.get(
-    "/{movie_id}/",
+    "/{slug}/",
     response_model=Movie,
 )
 def read_one_movie(

@@ -8,14 +8,13 @@ class MovieBase(BaseModel):
     title: str
     description: str
     genre: str
+    slug: str
 
 
 class Movie(MovieBase):
     """
     Model of the movie
     """
-
-    movie_id: int
 
 
 class MovieCreate(MovieBase):
@@ -32,6 +31,10 @@ class MovieCreate(MovieBase):
         Len(min_length=3, max_length=10),
     ]
     genre: Annotated[
+        str,
+        Len(min_length=3, max_length=10),
+    ]
+    slug: Annotated[
         str,
         Len(min_length=3, max_length=10),
     ]
