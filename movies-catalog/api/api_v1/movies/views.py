@@ -9,7 +9,7 @@ from fastapi import (
 from .dependencies import (
     prefetch_movie,
 )
-from .crud import MOVIES
+from .crud import storage
 
 import random
 
@@ -26,7 +26,7 @@ router = APIRouter(
     response_model=list[Movie],
 )
 def read_all_movies():
-    return MOVIES
+    return storage.get()
 
 
 @router.post(
@@ -36,11 +36,8 @@ def read_all_movies():
 )
 def create_movie(
     movie_create: MovieCreate,
-):
-    movie_id = random.randint(0, 1000)
-    return Movie(
-        **movie_create.model_dump(),
-    )
+) -> Movie:
+    return storage.create(movie_create)
 
 
 @router.get(

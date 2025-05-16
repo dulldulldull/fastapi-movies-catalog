@@ -24,17 +24,17 @@ class MovieCreate(MovieBase):
 
     title: Annotated[
         str,
-        Len(min_length=3, max_length=10),
+        Len(min_length=3),
     ]
     description: Annotated[
         str,
-        Len(min_length=3, max_length=10),
+        Len(min_length=3),
     ]
     genre: Annotated[
         str,
-        Len(min_length=3, max_length=10),
+        Len(min_length=3),
     ]
     slug: Annotated[
         str,
-        Len(min_length=3, max_length=10),
+        Len(min_length=3),
     ]
