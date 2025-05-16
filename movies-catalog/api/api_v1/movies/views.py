@@ -4,7 +4,6 @@ from fastapi import (
     Depends,
     APIRouter,
     status,
-    Form,
 )
 
 from .dependencies import (
@@ -14,7 +13,7 @@ from .crud import MOVIES
 
 import random
 
-from schemas.movie import Movie
+from schemas.movie import Movie, MovieCreate
 
 router = APIRouter(
     prefix="/movies",
@@ -36,16 +35,12 @@ def read_all_movies():
     status_code=status.HTTP_201_CREATED,
 )
 def create_movie(
-    title: Annotated[str, Form()],
-    description: Annotated[str, Form()],
-    genre: Annotated[str, Form()],
+    movie_create: MovieCreate,
 ):
     movie_id = random.randint(0, 1000)
     return Movie(
         movie_id=movie_id,
-        title=title,
-        description=description,
-        genre=genre,
+        **movie_create.model_dump(),
     )
 
 
