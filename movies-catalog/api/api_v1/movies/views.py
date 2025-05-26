@@ -11,8 +11,6 @@ from .dependencies import (
 )
 from .crud import storage
 
-import random
-
 from schemas.movie import Movie, MovieCreate
 
 router = APIRouter(
@@ -51,3 +49,28 @@ def read_one_movie(
     ],
 ) -> Movie:
     return movie
+
+
+@router.delete(
+    "/{slug}/",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={
+        status.HTTP_404_NOT_FOUND: {
+            "description": "Movie not found",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "Movie 'slug' not found",
+                    },
+                },
+            },
+        },
+    },
+)
+def delete_movie(
+    movie: Annotated[
+        Movie,
+        Depends(prefetch_movie),
+    ],
+) -> None:
+    storage.delete(movie=movie)

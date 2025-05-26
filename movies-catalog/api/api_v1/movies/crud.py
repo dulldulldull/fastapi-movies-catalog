@@ -2,27 +2,6 @@ from pydantic import BaseModel
 
 from schemas.movie import Movie, MovieCreate
 
-MOVIES = [
-    Movie(
-        slug="movie-1",
-        title="Movie 1",
-        description="Movie 1 description",
-        genre="Comedy",
-    ),
-    Movie(
-        slug="movie-2",
-        title="Movie 2",
-        description="Movie 2 description",
-        genre="Drama",
-    ),
-    Movie(
-        slug="movie-3",
-        title="Movie 3",
-        description="Movie 3 description",
-        genre="Animation",
-    ),
-]
-
 
 class MoviesStorage(BaseModel):
     slug_to_movie: dict[str, Movie] = {}
@@ -39,6 +18,12 @@ class MoviesStorage(BaseModel):
         )
         self.slug_to_movie[movie.slug] = movie
         return movie
+
+    def delete_by_slug(self, slug: str) -> None:
+        self.slug_to_movie.pop(slug, None)
+
+    def delete(self, movie: Movie) -> None:
+        self.delete_by_slug(slug=movie.slug)
 
 
 storage = MoviesStorage()
